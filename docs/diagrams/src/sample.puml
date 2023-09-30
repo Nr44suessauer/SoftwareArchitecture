@@ -1,0 +1,18 @@
+@startuml system_context python client
+!include <C4/C4_Container>
+
+
+
+Container(pythonApi, "Python API", "Python API used to send commands to proxy")
+Container(proxy, "Proxy Node", "nrF Chip links main system with BT-mesh")
+
+Rel(pythonApi, proxy, "send commands", "Serial connection")
+
+Rel(proxy,Mesh,"BT-Mesh")
+System_Boundary(Mesh, "Mesh") {
+
+Container(BTnode, "BT Node", "nrF Chip connected with proxy & mesh")
+Container(BTnode1, "BT Node", "nrF Chip connected with proxy & mesh")
+Container(BTnode2, "BT Node", "nrF Chip connected with proxy & mesh")
+}
+@enduml
