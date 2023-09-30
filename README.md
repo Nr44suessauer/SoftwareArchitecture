@@ -1,92 +1,172 @@
 # Software Architecture
 
+Manual Use PlantUML
+
+### Diagramme/PlantUML
+Diagramme werden mit dem PlantUML Tool erstellt. Dazu werden die letztendlichen Bilder aus einer Quelldatei generiert, welche vorher vom dokumentierenden Entwickler erstellt werden müssen. 
+
+Das Tool lässt sich als [VSCode Erwweiterung](https://marketplace.visualstudio.com/items?itemName=jebbs.plantuml) (empfohlen), bzw. auch über die [PlantUML Webseite](https://plantuml.com/download) herunterladen und installieren. Auf dieser finden sich auch Informationen dazu, wie sich PlantUML Diagramme schreiben lassen.
+
+#### Voraussetzungen
+- Eine installierte und in den **_Umgebungsvariabeln_** hinterlegte **JAVA Runtime Environment**.
+- Die [**PlantUML JAR**](https://plantuml.com/download) Datei.
+
+Weitere Informationen zur Installation und Vorraussetzungen der VSCode Erweiterung finden sich [hier](https://github.com/qjebbs/vscode-plantuml/blob/master/README.md)
+
+</br>
+
+---
+
+#### Java Umgebungsvariabeln Windows
+Nachdem **JAVA** über deren [Webseite](https://www.java.com/de/download/) heruntergeladen und installiert wurde, müssen die **Path** und **JAVA_HOME** Umgebungsvariablen angelegt bzw. erweitert werden. (Unter Linux sollte dies bei der Installation automatisch passieren.)
+
+Unter Windows gehen sie dazu in die **Systemeinstellungen -> Erweiterte Systemeinstellungen -> Umgebungsvariabeln**.
+
+##### JAVA_HOME
+Entweder unter den Nutzer- oder System-Variabeln einen neuen Eintrag mit Namen **JAVA_HOME** anlegen. In diesem wird der Pfad zum Hauptverzeichnis der installierten **Java Runtime Environment** hinterlegt.
+
+Dieser könnte beispielsweise so aussehen:
+```
+C:\Programme\Java\jre-1.8\
+```
+
+##### Path
+Die entweder schon existente **Path** Variable per **_bearbeiten_** Feld erweitern, oder falls die Variable noch nicht existiert diese neu anlegen. Diese Variable beinhaltet den Pfad zur ausführbaren Java Datei.
+
+Beispielsweise:
+```
+C:\Programme\java\jre-1.8\bin\
+```
+lässt sich alternativ schreiben als:
+```
+%JAVA_HOME%\bin\
+```
+
+</br>
+
+---
+
+#### PlantUML JAR
+Um die PlantUML JAR Datei zu verwenden, laden sie diese über deren [Webseite](https://plantuml.com/download) herrunter (Lizens kann frei gewählt werden). Nachdem diese herrunter geladen wurde, speichern sie diese in einem bekannten Ort ihres Dateisystems.
+
+Beispielsweise:
+```
+C:\Users\Benutzer\JAR-Files\plantuml.jar
+```
+Dieser Pfad ist wichtig um den **lokalen Renderer** der VSCode Erweiterung für PlantUML nutzen zu können. Oder wird gebraucht wenn mit die JAR Datei PlantUML direkt ausgeführt werden soll.
 
 
-## Getting started
+</br>
 
-To make it easy for you to get started with GitLab, here's a list of recommended next steps.
+---
 
-Already a pro? Just edit this README.md and make it your own. Want to make it easy? [Use the template at the bottom](#editing-this-readme)!
+<!-- ##### GraphVIZ
 
-## Add your files
 
-- [ ] [Create](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#create-a-file) or [upload](https://docs.gitlab.com/ee/user/project/repository/web_editor.html#upload-a-file) files
-- [ ] [Add files using the command line](https://docs.gitlab.com/ee/gitlab-basics/add-file.html#add-a-file-using-the-command-line) or push an existing Git repository with the following command:
+</br>
+
+--- -->
+
+#### PlantUML VSCode Erweiterungseinstellungen
+Wenn PlantUML als VSCode Erweiterung verwendet wird, müssen noch einige Anpassungen in den Erweiterungseinstellungen vorgenommen werden. Klicken sie dazu nachdem die VSCode Erweiterung installiert wurde, unter Erweiterungen -> PlantUML auf das Zahnrad neben dem **_Deinstalieren_** Feld und wählen sie **Erweiterungseinstellungen**.
+
+**Export Einstellungen**</br>
+Tragen sie dazu:
+
+unter **Diagrams Root**:
+```
+docs/diagramms/src
+```
+</br>
+
+und unter **Export Out Dir**:
+```
+docs/diagrams/out
+```
+ein.
+
+
+Weitere Einstellungen (sollten Standard sein) sind:
+- Export Concurrency: **3**
+- Export Include Folder Heirarchy: **true**
+- Export Sub Folder: **true**
+
+Damit sollten beim exportieren der Diagramme alle nötigen Unterordner und der **out/** Ordner selbst richtig erstellt werden.
+
+**Generierungs Einstellungen**</br>
+Um aus den Quelldateien Bilder zu generieren und sich eine Vorschau des Diagramms anzeigen zu lassen, müssen die PlantUML JAR sowie Java hinterlegt und ein Render Modus gewählt werden.
+
+Dazu unter **Jar** den Pfad zu der herunter geladenen **plantuml.jar** Datei angeben.
+
+Beispielsweise:
+```
+C:\Users\Benutzer\JAR-Files\plantuml.jar
+```
+##### Wichtig
+> Den vollen Datei Pfad inklusive Datei Name und Endung angeben.
+
+Unter **Java** den Pfad zu ihrer **Java Executable**,
+```
+C:\Programme\java\jre-1.8\bin\java
+```
+oder bei korrekt hinterlegten Umgebungsvariabeln einfach
+```
+java
+```
+angeben.
+
+Abschließend unter:
+- **Render** die Option **Local** auswählen.
+
+----
+
+</br>
+
+Abschließend sollte VSCode einmal neugestartet werden um die Veränderungen zu übernehmen.
+
+
+---
+
+### Diagramme Struktur
+Im Unterordner **diagrams/** finden sich die erstellten Diagramme in PlantUML Format. Dazu ist dieser in **src/** und **out/** Ordner unterteilt. 
+
+Der **src/** Ordner ist aufgeteilt in Ordner der entsprechenden Teilprojekte und in diesen befinden sich die Quelldateien der Diagramme, mit **.puml** Dateiendung.
+
+</br>
+
+In einer **.puml** Datei können sich mehrere Diagramme befinden und jede Datei wird beim Exportieren zu einem eigenen Ordner im **out/** Verzeichnis. Dadurch kann eine Datei für mehrere Diagramme eines (Sub-)Systems oder einer Komponente verwendet werden.
+
+Beispielhaft ließe sich für ein **CLI** im **docs/diagrams/src/ufo_python/** Ordner eine Datei mit Namen **CLI.puml** erstellen. Diese kann dann zum einen ein Ablauf Diagramm sowie ein Komponenten Diagramm beinhalten um darzustellen, wie der Ablauf der **CLI** ist und aus welchen Komponenten diese besteht.
+
+Werden die Diagramme dieser Datei nun exportiert, dann finden sich diese (Vorrausgesetzt die oben genannten Einstellungen stimmen) in einem Ordner mit Pfad **docs/diagramms/out/ufo_python/CLI/**. Folglich würde der genannte Ordner nun eine Bilddatei für das Ablauf Diagramm und eine Bilddatei für das Komponenten Diagramm beinhalten.
+
+---
+
+### C4 Diagram
+
+Documentation :```https://github.com/plantuml-stdlib/C4-PlantUML/blob/master/README.md ```
+
+Example:
 
 ```
-cd existing_repo
-git remote add origin https://git.it.hs-heilbronn.de/mnauendo/software-architecture.git
-git branch -M main
-git push -uf origin main
+@startuml system_context python client
+!include <C4/C4_Container>
+
+Container(pythonApi, "Python API", "Python API used to send commands to proxy")
+Container(proxy, "Proxy Node", "nrF Chip links main system with BT-mesh")
+
+Rel(pythonApi, proxy, "send commands", "Serial connection")
+
+Rel(proxy,Mesh,"BT-Mesh")
+System_Boundary(Mesh, "Mesh") {
+
+Container(BTnode, "BT Node", "nrF Chip connected with proxy & mesh")
+Container(BTnode1, "BT Node", "nrF Chip connected with proxy & mesh")
+Container(BTnode2, "BT Node", "nrF Chip connected with proxy & mesh")
+}
+@enduml
 ```
 
-## Integrate with your tools
+### Useage
 
-- [ ] [Set up project integrations](https://git.it.hs-heilbronn.de/mnauendo/software-architecture/-/settings/integrations)
-
-## Collaborate with your team
-
-- [ ] [Invite team members and collaborators](https://docs.gitlab.com/ee/user/project/members/)
-- [ ] [Create a new merge request](https://docs.gitlab.com/ee/user/project/merge_requests/creating_merge_requests.html)
-- [ ] [Automatically close issues from merge requests](https://docs.gitlab.com/ee/user/project/issues/managing_issues.html#closing-issues-automatically)
-- [ ] [Enable merge request approvals](https://docs.gitlab.com/ee/user/project/merge_requests/approvals/)
-- [ ] [Set auto-merge](https://docs.gitlab.com/ee/user/project/merge_requests/merge_when_pipeline_succeeds.html)
-
-## Test and Deploy
-
-Use the built-in continuous integration in GitLab.
-
-- [ ] [Get started with GitLab CI/CD](https://docs.gitlab.com/ee/ci/quick_start/index.html)
-- [ ] [Analyze your code for known vulnerabilities with Static Application Security Testing(SAST)](https://docs.gitlab.com/ee/user/application_security/sast/)
-- [ ] [Deploy to Kubernetes, Amazon EC2, or Amazon ECS using Auto Deploy](https://docs.gitlab.com/ee/topics/autodevops/requirements.html)
-- [ ] [Use pull-based deployments for improved Kubernetes management](https://docs.gitlab.com/ee/user/clusters/agent/)
-- [ ] [Set up protected environments](https://docs.gitlab.com/ee/ci/environments/protected_environments.html)
-
-***
-
-# Editing this README
-
-When you're ready to make this README your own, just edit this file and use the handy template below (or feel free to structure it however you want - this is just a starting point!). Thank you to [makeareadme.com](https://www.makeareadme.com/) for this template.
-
-## Suggestions for a good README
-Every project is different, so consider which of these sections apply to yours. The sections used in the template are suggestions for most open source projects. Also keep in mind that while a README can be too long and detailed, too long is better than too short. If you think your README is too long, consider utilizing another form of documentation rather than cutting out information.
-
-## Name
-Choose a self-explaining name for your project.
-
-## Description
-Let people know what your project can do specifically. Provide context and add a link to any reference visitors might be unfamiliar with. A list of Features or a Background subsection can also be added here. If there are alternatives to your project, this is a good place to list differentiating factors.
-
-## Badges
-On some READMEs, you may see small images that convey metadata, such as whether or not all the tests are passing for the project. You can use Shields to add some to your README. Many services also have instructions for adding a badge.
-
-## Visuals
-Depending on what you are making, it can be a good idea to include screenshots or even a video (you'll frequently see GIFs rather than actual videos). Tools like ttygif can help, but check out Asciinema for a more sophisticated method.
-
-## Installation
-Within a particular ecosystem, there may be a common way of installing things, such as using Yarn, NuGet, or Homebrew. However, consider the possibility that whoever is reading your README is a novice and would like more guidance. Listing specific steps helps remove ambiguity and gets people to using your project as quickly as possible. If it only runs in a specific context like a particular programming language version or operating system or has dependencies that have to be installed manually, also add a Requirements subsection.
-
-## Usage
-Use examples liberally, and show the expected output if you can. It's helpful to have inline the smallest example of usage that you can demonstrate, while providing links to more sophisticated examples if they are too long to reasonably include in the README.
-
-## Support
-Tell people where they can go to for help. It can be any combination of an issue tracker, a chat room, an email address, etc.
-
-## Roadmap
-If you have ideas for releases in the future, it is a good idea to list them in the README.
-
-## Contributing
-State if you are open to contributions and what your requirements are for accepting them.
-
-For people who want to make changes to your project, it's helpful to have some documentation on how to get started. Perhaps there is a script that they should run or some environment variables that they need to set. Make these steps explicit. These instructions could also be useful to your future self.
-
-You can also document commands to lint the code or run tests. These steps help to ensure high code quality and reduce the likelihood that the changes inadvertently break something. Having instructions for running tests is especially helpful if it requires external setup, such as starting a Selenium server for testing in a browser.
-
-## Authors and acknowledgment
-Show your appreciation to those who have contributed to the project.
-
-## License
-For open source projects, say how it is licensed.
-
-## Project status
-If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+``` Hotkey: ALT + D ```
