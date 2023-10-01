@@ -2,42 +2,51 @@
 
 Manual Use PlantUML
 
-### Diagramme/PlantUML
-Diagramme werden mit dem PlantUML Tool erstellt. Dazu werden die letztendlichen Bilder aus einer Quelldatei generiert, welche vorher vom dokumentierenden Entwickler erstellt werden müssen. 
+### Diagrams/PlantUML
 
-Das Tool lässt sich als [VSCode Erwweiterung](https://marketplace.visualstudio.com/items?itemName=jebbs.plantuml) (empfohlen), bzw. auch über die [PlantUML Webseite](https://plantuml.com/download) herunterladen und installieren. Auf dieser finden sich auch Informationen dazu, wie sich PlantUML Diagramme schreiben lassen.
+Diagrams are created using the PlantUML tool. The final images are generated from a source file, which must be created beforehand by the documenting developer.
 
-#### Voraussetzungen
-- Eine installierte und in den **_Umgebungsvariabeln_** hinterlegte **JAVA Runtime Environment**.
-- Die [**PlantUML JAR**](https://plantuml.com/download) Datei.
+The tool can be downloaded and installed as a [VSCode Extension](https://marketplace.visualstudio.com/items?itemName=jebbs.plantuml) (recommended) or via the [PlantUML Website](https://plantuml.com/download). On this website, you will also find information on how to write PlantUML diagrams.
 
-Weitere Informationen zur Installation und Vorraussetzungen der VSCode Erweiterung finden sich [hier](https://github.com/qjebbs/vscode-plantuml/blob/master/README.md)
+#### Prerequisites
+
+- An installed **JAVA Runtime Environment** listed in the **_environment variables_**.
+- The [**PlantUML JAR**](https://plantuml.com/download) file.
+
+For further information on the installation and prerequisites of the VSCode extension, click [here](https://github.com/qjebbs/vscode-plantuml/blob/master/README.md).
 
 </br>
 
 ---
 
-#### Java Umgebungsvariabeln Windows
-Nachdem **JAVA** über deren [Webseite](https://www.java.com/de/download/) heruntergeladen und installiert wurde, müssen die **Path** und **JAVA_HOME** Umgebungsvariablen angelegt bzw. erweitert werden. (Unter Linux sollte dies bei der Installation automatisch passieren.)
+#### Java Environment Variables Windows
 
-Unter Windows gehen sie dazu in die **Systemeinstellungen -> Erweiterte Systemeinstellungen -> Umgebungsvariabeln**.
+After **JAVA** has been downloaded and installed from their [website](https://www.java.com/de/download/), the **Path** and **JAVA_HOME** environment variables need to be created or expanded. (On Linux, this should happen automatically during installation.)
+
+On Windows, go to **System Properties -> Advanced System Settings -> Environment Variables**.
 
 ##### JAVA_HOME
-Entweder unter den Nutzer- oder System-Variabeln einen neuen Eintrag mit Namen **JAVA_HOME** anlegen. In diesem wird der Pfad zum Hauptverzeichnis der installierten **Java Runtime Environment** hinterlegt.
 
-Dieser könnte beispielsweise so aussehen:
+Create a new entry named **JAVA_HOME** under either user or system variables. In this, the path to the main directory of the installed **Java Runtime Environment** is stored.
+
+For instance, it might look like this:
+
 ```
 C:\Programme\Java\jre-1.8\
 ```
 
-##### Path
-Die entweder schon existente **Path** Variable per **_bearbeiten_** Feld erweitern, oder falls die Variable noch nicht existiert diese neu anlegen. Diese Variable beinhaltet den Pfad zur ausführbaren Java Datei.
 
-Beispielsweise:
+##### Path
+
+Either expand the already existing **Path** variable using the **_edit_** field or create it anew if the variable does not exist yet. This variable contains the path to the executable Java file.
+
+For example:
+
 ```
-C:\Programme\java\jre-1.8\bin\
+C:\Program files\java\jre-1.8\bin\
 ```
-lässt sich alternativ schreiben als:
+can alternatively be written as:
+
 ```
 %JAVA_HOME%\bin\
 ```
@@ -47,13 +56,16 @@ lässt sich alternativ schreiben als:
 ---
 
 #### PlantUML JAR
-Um die PlantUML JAR Datei zu verwenden, laden sie diese über deren [Webseite](https://plantuml.com/download) herrunter (Lizens kann frei gewählt werden). Nachdem diese herrunter geladen wurde, speichern sie diese in einem bekannten Ort ihres Dateisystems.
 
-Beispielsweise:
+To use the PlantUML JAR file, download it from their [website](https://plantuml.com/download) (the license can be chosen freely). After downloading, save it in a known location on your file system.
+
+For example:
+
 ```
-C:\Users\Benutzer\JAR-Files\plantuml.jar
+C:\Users\USER\JAR-Files\plantuml.jar
 ```
-Dieser Pfad ist wichtig um den **lokalen Renderer** der VSCode Erweiterung für PlantUML nutzen zu können. Oder wird gebraucht wenn mit die JAR Datei PlantUML direkt ausgeführt werden soll.
+This path is important for using the **local renderer** of the VSCode extension for PlantUML. It is also needed if you want to run PlantUML directly using the JAR file.
+
 
 
 </br>
@@ -67,78 +79,87 @@ Dieser Pfad ist wichtig um den **lokalen Renderer** der VSCode Erweiterung für 
 
 --- -->
 
-#### PlantUML VSCode Erweiterungseinstellungen
-Wenn PlantUML als VSCode Erweiterung verwendet wird, müssen noch einige Anpassungen in den Erweiterungseinstellungen vorgenommen werden. Klicken sie dazu nachdem die VSCode Erweiterung installiert wurde, unter Erweiterungen -> PlantUML auf das Zahnrad neben dem **_Deinstalieren_** Feld und wählen sie **Erweiterungseinstellungen**.
+#### PlantUML VSCode Extension Settings
 
-**Export Einstellungen**</br>
-Tragen sie dazu:
+When using PlantUML as a VSCode extension, some adjustments need to be made in the extension settings. After the VSCode extension has been installed, click on Extensions -> PlantUML on the gear icon next to the **_Uninstall_** field and select **Extension Settings**.
 
-unter **Diagrams Root**:
+**Export Settings**<br/>
+Please enter:
+
+under **Diagrams Root**:
+
 ```
 docs/diagramms/src
 ```
 </br>
 
-und unter **Export Out Dir**:
+
+and under **Export Out Dir**:
+
 ```
 docs/diagrams/out
 ```
-ein.
 
-
-Weitere Einstellungen (sollten Standard sein) sind:
+Additional settings (which should be default) include:
 - Export Concurrency: **3**
-- Export Include Folder Heirarchy: **true**
+- Export Include Folder Hierarchy: **true**
 - Export Sub Folder: **true**
 
-Damit sollten beim exportieren der Diagramme alle nötigen Unterordner und der **out/** Ordner selbst richtig erstellt werden.
+This should ensure that all necessary subfolders and the **out/** folder itself are correctly created when exporting the diagrams.
 
-**Generierungs Einstellungen**</br>
-Um aus den Quelldateien Bilder zu generieren und sich eine Vorschau des Diagramms anzeigen zu lassen, müssen die PlantUML JAR sowie Java hinterlegt und ein Render Modus gewählt werden.
+**Generation Settings**<br/>
+To generate images from the source files and to display a preview of the diagram, the PlantUML JAR and Java must be specified and a render mode selected.
 
-Dazu unter **Jar** den Pfad zu der herunter geladenen **plantuml.jar** Datei angeben.
+To do this, under **Jar**, specify the path to the downloaded **plantuml.jar** file.
 
-Beispielsweise:
-```
-C:\Users\Benutzer\JAR-Files\plantuml.jar
-```
-##### Wichtig
-> Den vollen Datei Pfad inklusive Datei Name und Endung angeben.
+For example:
 
-Unter **Java** den Pfad zu ihrer **Java Executable**,
 ```
-C:\Programme\java\jre-1.8\bin\java
+C:\Users\USER\JAR-Files\plantuml.jar
 ```
-oder bei korrekt hinterlegten Umgebungsvariabeln einfach
+##### Important
+> Specify the full file path, including file name and extension.
+
+Under **Java**, provide the path to your **Java Executable**,
+
+```
+C:\Program files\java\jre-1.8\bin\java
+```
+or, if environment variables are set correctly, simply
+
 ```
 java
 ```
-angeben.
 
-Abschließend unter:
-- **Render** die Option **Local** auswählen.
+Lastly, under:
+- **Render**, select the **Local** option.
+
+----
+
+Finally, VSCode should be restarted once to apply the changes.
 
 ----
 
 </br>
 
-Abschließend sollte VSCode einmal neugestartet werden um die Veränderungen zu übernehmen.
+Finally, VSCode should be restarted once to apply the changes.
 
 
 ---
 
-### Diagramme Struktur
-Im Unterordner **diagrams/** finden sich die erstellten Diagramme in PlantUML Format. Dazu ist dieser in **src/** und **out/** Ordner unterteilt. 
+### Diagram Structure
+In the subfolder **diagrams/**, you'll find the created diagrams in PlantUML format. This is further divided into **src/** and **out/** folders.
 
-Der **src/** Ordner ist aufgeteilt in Ordner der entsprechenden Teilprojekte und in diesen befinden sich die Quelldateien der Diagramme, mit **.puml** Dateiendung.
+The **src/** folder is divided into folders for the respective subprojects and contains the source files of the diagrams, with a **.puml** file extension.
 
-</br>
+<br/>
 
-In einer **.puml** Datei können sich mehrere Diagramme befinden und jede Datei wird beim Exportieren zu einem eigenen Ordner im **out/** Verzeichnis. Dadurch kann eine Datei für mehrere Diagramme eines (Sub-)Systems oder einer Komponente verwendet werden.
+In a **.puml** file, several diagrams can be present, and each file is exported to its own folder in the **out/** directory upon export. This allows a file to be used for several diagrams of a (sub-)system or a component.
 
-Beispielhaft ließe sich für ein **CLI** im **docs/diagrams/src/ufo_python/** Ordner eine Datei mit Namen **CLI.puml** erstellen. Diese kann dann zum einen ein Ablauf Diagramm sowie ein Komponenten Diagramm beinhalten um darzustellen, wie der Ablauf der **CLI** ist und aus welchen Komponenten diese besteht.
+For example, a file named **CLI.puml** could be created for a **CLI** in the **docs/diagrams/src/ufo_python/** folder. This file could contain both a flow diagram and a component diagram to illustrate the flow of the **CLI** and its constituent components.
 
-Werden die Diagramme dieser Datei nun exportiert, dann finden sich diese (Vorrausgesetzt die oben genannten Einstellungen stimmen) in einem Ordner mit Pfad **docs/diagramms/out/ufo_python/CLI/**. Folglich würde der genannte Ordner nun eine Bilddatei für das Ablauf Diagramm und eine Bilddatei für das Komponenten Diagramm beinhalten.
+When the diagrams from this file are now exported, assuming the settings mentioned above are correct, they can be found in a folder with the path **docs/diagrams/out/ufo_python/CLI/**. Consequently, the specified folder would contain an image file for the flow diagram and an image file for the component diagram.
+
 
 ---
 
