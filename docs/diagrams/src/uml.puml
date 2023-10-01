@@ -1,0 +1,404 @@
+@startuml Config Menu
+start
+:Eingabe Nutzer;
+split 
+    :Ansteuerung von Node;
+    end
+split again
+    :Monotoring Anfragen;
+    end
+split again
+    :Debug Anfragen;
+    end
+split again
+    :Config Interface;
+end split
+
+:Terminal Output Info;
+    note right
+    Info über Befehle:
+    1. Zeige Verbindungen & Status von Nodes
+    2. Weise Node X eine Posotion zu 
+    3. Reboot Node X
+end note
+
+switch(Terminal Eingabe)
+case(0)
+    : Zeige Verbindungen und Status;
+case(1)
+    : Zuweisung von NodeX;
+case(2)
+    : Reboot Node;
+    end
+endswitch
+:Terminal Output;
+    note right
+    Zeigt alle MacAdressen die sich im Mesh befinden.
+    &
+    Zeigt zusätzlich die Zuweisung 
+end note
+
+switch(Terminal Eingabe) 
+case(0)
+    end
+case(1)
+    : Eingabe von MacAdresse;
+    : Eingabe von Zuweisung;
+endswitch
+
+: Terminal Output;
+    note right
+    Zeigt alle MacAdressen die sich im Mesh befinden.
+    &
+    Zeigt zusätzlich die Zuweisung 
+end note
+end
+@enduml
+
+
+#----------------------------------------------------------
+@startuml Ansteuerung der Motoren | MainPc -> Proxy
+start 
+
+:Eingabe Nutzer;
+split 
+    :Ansteuerung von Node;
+split again
+    :Monotoring Anfragen;
+    end
+split again
+    :Debug Anfragen;
+    end
+split again
+    :Config Interface;
+    end
+end split
+
+partition Ablauf
+    : Datenpaket erstellen;
+    note right
+  bestehend aus:
+  Header (weißt Paket als Ansteuerung aus)
+  MacAdresse || DeviceVariable
+  Amplitude
+  Frequenz
+end note
+
+    #Green : Datenpaket senden via. UART;
+    note right
+    MainPc -> Proxy -> Node | Return : Bestätigung
+end note
+}
+split
+    : Terminal Output;
+split again 
+    : Daten an LabStreamLayer;
+end split
+end
+
+@enduml
+
+
+#----------------------------------------------------------
+@startuml Monotoring Vales | Anfrage von MainPc -> Proxy
+start
+
+:Eingabe Nutzer;
+split 
+    :Ansteuerung von Node;
+    end
+split again
+    :Monotoring Anfragen;
+split again
+    :Debug Anfragen;
+    end
+split again
+    :Config Interface;
+    end
+end split
+
+partition Ablauf
+    : Datenpaket erstellen;
+    note right
+  bestehend aus:
+  Header (weißt Paket als Monotoringabfrage aus)
+  MacAdresse || DeviceVariable
+end note
+
+    #Green : Datenpaket senden via. UART;
+    note right
+    MainPc -> Proxy -> Node & return 
+end note
+
+    : Warten auf Daten;
+        note right
+        erwartet:
+        MacAdresse 
+        Batt. %
+    end note
+}
+
+split
+    : Terminal Output;
+split again 
+    : Daten an LabStreamLayer;
+end split
+end
+
+@enduml
+
+
+
+#----------------------------------------------------------
+@startuml Menü | MainPc -> Proxy
+
+partition Ablauf Allgemein{
+start
+
+split 
+    :Ansteuerung von Node;
+split again
+    :Monotoring Anfragen;
+split again
+    :Debug Anfragen;
+split again
+    :Config Interface;
+    end
+end split
+
+:Erstellen von Paketen ( MainPc -> Proxy);
+:Senden via. UART;
+
+split
+    : Keine Rückgabewerte;
+split again 
+    : Status/Msg als Rückgabewert;
+end split
+
+split
+    : Terminal Output;
+split again 
+    : Daten an LabStreamLayer;
+end split
+
+end
+
+@enduml
+
+
+#----------------------------------------------------------
+@startuml Allgemein Kopie MainPC -> Proxy
+
+start
+
+switch (user input)
+
+    case ( Motoren\n Ansteuern )
+
+    partition Ablauf {
+    : Datenpaket erstellen;
+    note right
+        bestehend aus:
+        Header (weißt Paket als Ansteuerung aus)
+        MacAdresse || DeviceVariable
+        Amplitude
+        Frequenz
+    end note
+
+    #Green : Datenpaket senden via. UART;
+    note right
+        MainPc -> Proxy -> Node | Return : Bestätigung
+    end note
+    }
+
+    split
+        : Terminal Output;
+    split again 
+        : Daten an LabStreamLayer;
+    end split
+
+    case ( Monitoring\n Anfragen )
+
+    partition Ablauf
+        : Datenpaket erstellen;
+        note right
+            bestehend aus:
+            Header (weißt Paket als Monotoringabfrage aus)
+            MacAdresse || DeviceVariable
+        end note
+
+        #Green : Datenpaket senden via. UART;
+        note right
+            MainPc -> Proxy -> Node & return 
+        end note
+
+        : Warten auf Daten;
+        note right
+            erwartet:
+            MacAdresse 
+            Batt. %
+        end note
+    }
+
+    case ( Debug Anfrage )
+
+
+
+    case ( Config\n Interface )
+
+    :Terminal Output Info;
+    note right
+        Info über Befehle:
+        1. Zeige Verbindungen & Status von Nodes
+        2. Weise Node X eine Posotion zu 
+        3. Reboot Node X
+    end note
+
+    switch(Terminal Eingabe)
+    case(0)
+        : Zeige Verbindungen und Status;
+    case(1)
+        : Zuweisung von NodeX;
+    case(2)
+        : Reboot Node;
+        end
+    endswitch
+
+    :Terminal Output;
+    note right
+        Zeigt alle MacAdressen die sich im Mesh befinden.
+        &
+        Zeigt zusätzlich die Zuweisung 
+    end note
+
+    switch(Terminal Eingabe) 
+    case(0)
+        end
+    case(1)
+        : Eingabe von MacAdresse;
+        : Eingabe von Zuweisung;
+    endswitch
+
+    : Terminal Output;
+    note right
+        Zeigt alle MacAdressen die sich im Mesh befinden.
+        &
+        Zeigt zusätzlich die Zuweisung 
+    end note
+
+endswitch
+
+stop
+
+@enduml
+
+@startuml communication_python-proxy
+
+start
+
+partition construct instruction {
+
+    floating note
+        Info über die möglichen Instuktionen:
+        (**Fett** die Instruktionstyp)
+
+        **config**: 
+            Konfiguration der Nodes:
+                - weise Node einer Position zu,
+                - reboote Node,
+                - frage Node Verbindungs- 
+                  und Statusinformationen an
+            
+            **Params**: MAC Addr.
+        
+        **debug**:
+        
+        **monitoring**:
+            Informationen anfragen
+            
+            **Params**: MAC Addr.
+            **Return**: MAC Addr., Batterie Status in %
+        
+        **control**:
+            Motor ansteuern
+
+            **Params**: MAC Addr., Amp., Frq.
+            **Return**: Bestätigung
+    end note
+
+    :wait for input string
+    (e.g. via cli);
+    floating note right
+        Instruktionen bestehen aus Header und Body.
+
+        **Header**: Instruktionstyp, MAC Addr.
+        **Body**(optional, abhängig von Instruktionstyp):
+            - control: Amp., Frq.
+            - config: NodePosition
+            - monitoring: none
+            - debug: none
+    end note
+
+    :create instruction and add
+    MAC Addr. & instructiontype;
+
+    if (instruction.header.type is config || control)
+    
+        switch (instruction type)
+
+        case (control)
+
+            :read Amp. and Frq. value 
+            from input string and add 
+            them to body;
+
+        case (config)
+
+            :read NodePosition value
+            from input string and add
+            it to body;
+
+        endswitch
+
+    else if (instruction.header.type is monitoring || debug)
+
+    else
+
+        #OrangeRed :ERROR unknown\ninstructiontype;
+
+        ' jump back to start
+        end
+
+    endif
+}
+
+partition handle instruction {
+
+    :construct serial message 
+    from instruction;
+    note right
+        can  be implemented as build in 
+        function in instruction class
+    end note
+
+    #Green :send serial message to proxy;
+
+    :wait for return value or timeout;
+
+    if (wait) then (return value)
+
+        :return result;
+
+    else (timeout)
+
+        :ERROR node 
+        communication timeout;
+
+        end
+
+    endif
+}
+
+stop
+
+@enduml
